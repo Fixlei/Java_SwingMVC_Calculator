@@ -1,0 +1,136 @@
+# MVC Calculator
+
+A desktop calculator application built with **Java Swing**, demonstrating clean **MVC architecture** and core **design patterns** in object-oriented programming.
+---
+
+## Project Overview
+
+This project implements a fully functional calculator with a modern dark-themed GUI. It serves as a practical study of how to structure a Swing application using the **Model-View-Controller** pattern, ensuring each layer is decoupled and independently testable.
+
+### Key Features
+
+- Six arithmetic operations: `+` `−` `×` `÷` `%` `^`
+- Operator selection via `JComboBox` dropdown
+- Real-time formula display with color-coded results (green for success, red for error)
+- Input validation and graceful error handling (division by zero, invalid input)
+- Placeholder text with focus-aware behavior
+- Button hover effects
+- Dark theme (Catppuccin Mocha-inspired palette)
+
+---
+
+## Architecture
+
+```
+┌──────────────────────────────────────────────────┐
+│                      Main                        │
+│         (Bootstrap on EDT via invokeLater)        │
+└──────┬──────────────┬───────────────┬────────────┘
+       │              │               │
+       ▼              ▼               ▼
+ ┌──────────┐  ┌─────────────┐  ┌──────────────┐
+ │  Model   │  │    View     │  │  Controller  │
+ │          │  │             │  │              │
+ │ Pure     │  │ JFrame +    │  │ Mediates     │
+ │ business │  │ Swing       │  │ between      │
+ │ logic    │  │ components  │  │ Model & View │
+ └──────────┘  └─────────────┘  └──────────────┘
+    no UI          no logic        coordinates
+  dependency      dependency       both layers
+```
+
+### Layer Responsibilities
+
+| Layer | Class | Role |
+|-------|-------|------|
+| **Model** | `CalculatorModel` | Pure arithmetic operations. Zero Swing imports. Independently unit-testable. |
+| **View** | `CalculatorView` | UI layout, styling, and input collection. Exposes listener registration methods but never handles business logic. |
+| **Controller** | `CalculatorController` | Reads input from View → invokes Model → pushes results back to View. The only class that references both layers. |
+| **Entry Point** | `Main` | Bootstraps all three layers on the Event Dispatch Thread (EDT). |
+
+---
+
+## Design Patterns Applied
+
+| Pattern | Location | Purpose |
+|---------|----------|---------|
+| **MVC** | Overall architecture | Separation of concerns across three layers |
+| **Observer** | `View.addCalculateListener()` → `Controller` subscribes | View is unaware of its observers; Controller registers callbacks for UI events |
+| **Mediator** | `CalculatorController` | Single coordination point between Model and View |
+| **Factory Method** | `createStyledTextField()`, `createStyledButton()` | Encapsulates component creation with consistent styling |
+| **SRP** | Each class | Model calculates; View renders; Controller coordinates |
+| **OCP** | `CalculatorModel` | New operations require only a new method — existing code remains untouched |
+
+---
+
+## Project Structure
+
+```
+edu/calculatorSwingMVC/
+├── Main.java                          # Entry point (EDT bootstrap)
+├── model/
+│   └── CalculatorModel.java           # Business logic (6 operations)
+├── view/
+│   └── CalculatorView.java            # Swing UI (dark theme, components)
+└── controller/
+    └── CalculatorController.java      # Event handling & data flow
+```
+
+---
+
+## Tech Stack
+
+| Category | Detail |
+|----------|--------|
+| Language | Java 17+ |
+| GUI Framework | Swing (`javax.swing`) |
+| Layout | `FlowLayout`, `BoxLayout`, compound panels |
+| Threading | EDT-safe via `SwingUtilities.invokeLater()` |
+| Build | Javac / IDE (IntelliJ IDEA recommended) |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- JDK 17 or higher
+
+### Compile & Run
+
+```bash
+# Compile all sources
+javac -d out $(find edu -name "*.java")
+
+# Launch the application
+java -cp out edu.calculatorSwingMVC.Main
+```
+
+Alternatively, open the project in **IntelliJ IDEA** or **Eclipse** and run `Main.java` directly.
+
+---
+
+## UI Color Scheme
+
+Built on a **Catppuccin Mocha**-inspired dark palette:
+
+| Role | Color | Hex |
+|------|-------|-----|
+| Background | Dark navy | `#1E1E2E` |
+| Panel | Muted indigo | `#2D2D41` |
+| Accent | Soft blue | `#89B4FA` |
+| Success | Mint green | `#A6E3A1` |
+| Error | Soft red | `#F38BA8` |
+| Primary text | Light lavender | `#CDD6F4` |
+
+---
+
+## MVC Decoupling Verification
+
+The architecture satisfies these decoupling criteria:
+
+1. **Model is UI-agnostic** — `CalculatorModel` contains zero Swing imports. It can be called from a unit test, a CLI tool, or a web backend with no modifications.
+2. **View is logic-agnostic** — `CalculatorView` never performs arithmetic. It only collects user input and renders output through its public API.
+3. **Controller is the sole bridge** — Only `CalculatorController` holds references to both Model and View. Swapping the View for a different frontend (e.g., JavaFX, a web UI) requires rewiring only the Controller.
+
+---
