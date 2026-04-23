@@ -1,8 +1,8 @@
-package edu.calculatorSwingMVC;
+package edu.mvcswing.calculator;
 
-import edu.calculatorSwingMVC.controller.CalculatorController;
-import edu.calculatorSwingMVC.model.CalculatorModel;
-import edu.calculatorSwingMVC.view.CalculatorView;
+import edu.mvcswing.calculator.controller.CalculatorController;
+import edu.mvcswing.calculator.model.CalculatorModel;
+import edu.mvcswing.calculator.view.CalculatorView;
 import javax.swing.SwingUtilities;
 
 public class Main {
