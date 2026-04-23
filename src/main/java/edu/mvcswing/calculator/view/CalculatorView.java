@@ -36,15 +36,23 @@ import javax.swing.border.EmptyBorder;
 public class CalculatorView extends JFrame {
 
   // ===== Theme Color Constants =====
-  private static final Color BG_DARK = new Color(30, 30, 46);    // Main background
-  private static final Color BG_PANEL = new Color(45, 45, 65);    // Result panel background
-  private static final Color ACCENT = new Color(137, 180, 250); // Primary accent (blue)
-  private static final Color ACCENT_HOVER = new Color(116, 160, 235); // Button hover state
-  private static final Color TEXT_PRIMARY = new Color(205, 214, 244); // Primary text
-  private static final Color TEXT_DIM = new Color(147, 153, 178); // Secondary / placeholder text
-  private static final Color INPUT_BG = new Color(55, 55, 80);    // Input field background
-  private static final Color SUCCESS = new Color(166, 227, 161); // Result success (green)
-  private static final Color ERROR = new Color(243, 139, 168); // Error message (red)
+  // Main UI Colors
+  private static final Color BG_DARK = new Color(240, 240, 240);    // Light light gray background
+  private static final Color BG_PANEL = new Color(225, 225, 225);   // Slightly darker panel background
+  private static final Color ACCENT = new Color(0, 50, 120);        // Dark blue for symbols/accents
+  private static final Color ACCENT_HOVER = new Color(25, 80, 150); // Lighter blue for hover states
+
+  // Text Colors
+  private static final Color TEXT_PRIMARY = new Color(0, 0, 0);      // Black text
+  private static final Color TEXT_DIM = new Color(100, 100, 100);    // Gray for secondary/placeholder text
+
+  // Input Fields
+  private static final Color INPUT_BG = new Color(255, 255, 255);    // White input background
+  private static final Color INPUT_TEXT = new Color(0, 100, 0);      // Dark green input text
+
+  // Status Colors
+  private static final Color SUCCESS = new Color(30, 130, 30);       // Green for success messages
+  private static final Color ERROR = new Color(180, 40, 40);         // Dark red for error messages
 
   // ===== UI Components =====
   private JTextField field1;
